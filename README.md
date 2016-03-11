@@ -10,7 +10,7 @@ Measure single HTTP request time or average time of multiple requests.
 
 #### Example:
 
-Command:
+Command (default attempts = 1):
 
 `$ ./curltime.sh http://www.github.com`
 
