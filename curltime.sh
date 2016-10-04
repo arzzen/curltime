@@ -40,6 +40,18 @@ function _divider
     divider=" +"$divider$divider$divider$divider"+"
     printf "%$width.${width}s+\n" "$divider"
 }
+function _colour {
+  # set to green
+  if [ $(bc <<< "$1 < 1") -eq 1 ]; then
+    echo -e  " \e[1;32m$1\e[m"
+  # set to yellow
+  elif [ $(bc <<< "$1 >= 0.300") -eq 1 ]; then
+    echo -e " \e[1;33m$1\e[m"
+  # set to red
+  elif [ $(bc <<< "$1 > 0.400") -eq 1 ]; then
+    echo -e " \e[1;31m$1\e[m"
+  fi
+}
 
 if [[ $# -eq 0 ]]; then
     _help
@@ -81,7 +93,7 @@ do
     var=$(echo $result | awk -F":" '{print $1, $2, $3, $4, $5, $6, $7}')
     set -- $var
 
-    printf "$formatrow" $count"." ${1/,/.} ${2/,/.} ${7/,/.} ${4/,/.} ${6/,/.} ${3/,/.}
+    printf "$formatrow" $count"." ${1/,/.} ${2/,/.} ${7/,/.} ${4/,/.} ${6/,/.} "$(_colour ${3/,/.})"
    
     total_connect=$(_calc "${total_connect/,/.} + ${1/,/.}")
     total_start=$(_calc "${total_start/,/.} + ${2/,/.}")
@@ -91,6 +103,6 @@ do
 done
 
 _divider
-printf "$formatrow" "summary" "$(_calc $total_connect/$attempts)" "$(_calc $total_start/$attempts)" "-" "-" "-" "$(_calc $total_time/$attempts)"
+printf "$formatrow" "summary" "$(_calc $total_connect/$attempts)" "$(_calc $total_start/$attempts)" "-" "-" "-" "$(_colour $(_calc $total_time/$attempts))"
 _divider
 _echo ""
