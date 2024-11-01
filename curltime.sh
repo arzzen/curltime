@@ -43,13 +43,13 @@ function _divider
 function _colour {
   # set to green
   if [ $(bc <<< "$1 < 1") -eq 1 ]; then
-    echo -e  " \e[1;32m$1\e[m"
+    echo -e  " \033[1;32m$1\033[0m"
   # set to yellow
   elif [ $(bc <<< "$1 >= 0.300") -eq 1 ]; then
-    echo -e " \e[1;33m$1\e[m"
+    echo -e " \033[1;33m$1\033[0m"
   # set to red
   elif [ $(bc <<< "$1 > 0.400") -eq 1 ]; then
-    echo -e " \e[1;31m$1\e[m"
+    echo -e " \033[1;31m$1\033[0m"
   fi
 }
 
